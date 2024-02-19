@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"
+        integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="assets/css/ins-kose-post.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <style>
+        .panel-heading {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="container my-4">
+            <form id="postForm">
+                <div class="mb-3">
+                    <label for="titleInput" class="form-label">Başlık</label>
+                    <input type="text" maxlength="75" class="form-control" id="titleInput" placeholder="Başlık giriniz">
+                </div>
+                <div class="mb-3">
+                    <label for="textareaDesciription" class="form-label">Özet</label>
+                    <textarea id="textareaDesciription" class="form-control" cols="30" rows="10"
+                        maxlength="311"></textarea>
+                </div>
+                <button type="button" class="btn btn-success" onclick="htmlToImage()">HTML'i Resme Dönüştür</button>
+            </form>
+        </div>
+
+        <div class="post-square-corner border" id="content">
+            <div class="post-area">
+                <div class="corner-pic">
+
+                    <span class="bg" style="background-image: url('berkay.jpg');"></span>
+
+
+                    <div class="corner-logo">
+                        <img src="assets/img/just-logo.png" alt="">
+
+                    </div>
+
+
+                </div>
+                <img class="post-logo" src="assets/img/antalyaSektorel.svg" alt="">
+                <div class="post-yazar">Hasan Yavaşlar Yazdı...</div>
+                <div class="post-title-corner" id="title">Antalya Derbisini Antalya Derbisini Antalya Derbisini</div>
+                <div class="post-content-corner" id="desciription">
+                    <p>Kendi sahasında aldığı sonuçlarla alt
+                        sıraların biraz üzerinde yer alan
+                        Antalyaspor, hemen üstündeki
+                        Alanyaspor'u mağlup ederek düşme hattı
+                        ile olan bağını önemli ölçüde kesti.
+                    </p>
+                    <p>Bu tür maçlarda sonuç önemlidir ve
+                        haneye yazılan 3 puan bazı
+                        olumsuzlukları ört bas etmeye yeter.
+                    </p>
+                    <p>Alanyaspor ise, bu maçı kazanarak
+                        sdsdsdsdsdsd kupalarına katılma hedefini
+                        sürdürmek istiyordu. Ancak, Antalyaspor
+                        karşısında istediği oyunu sahaya
+                        yansıtamadı.
+                    </p>
+                </div>
+                <div class="last-content">Devamı web sitemizde!</div>
+
+
+
+
+            </div>
+
+
+            <div class="post-footer">
+                <div class="icon-area">
+                    <img src="assets/img/logos/facebook.png" alt="">
+                    <img src="assets/img/logos/x.png" alt="">
+                    <img src="assets/img/logos/instagram.png" alt="">
+                    <img src="assets/img/logos/youtube.png" alt="">
+                    <img src="assets/img/logos/linkedin.png" alt="">
+                </div>
+                <div class="text-area">
+                    <div class="text">antsektorel</div>
+                    <div class="text text-hr">|</div>
+                    <div class="text">www.antalyasektorel.com.tr</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <script>
+        $("#titleInput").change(function (e) {
+            e.preventDefault();
+            const title = $("#titleInput").val();
+            $('#title').empty();
+            $('#title').html(title);
+
+        });
+
+
+
+        function htmlToImage() {
+            html2canvas(document.getElementById("content")).then(canvas => {
+                const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                const link = document.createElement('a');
+                link.download = 'html-to-image.png';
+                link.href = image;
+                link.click();
+            });
+        }
+
+
+
+        $(document).ready(function () {
+            $('#textareaDesciription').summernote({
+                callbacks: {
+                    onChange: function (contents, $editable) {
+                        const desciription = $(".note-editable").html();
+                        $('#desciription').empty();
+                        $('#desciription').html(desciription);
+                    },
+
+                    onPaste: function (e) {
+                        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                        e.preventDefault();
+                        document.execCommand('insertText', false, bufferText);
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+
+</html>
